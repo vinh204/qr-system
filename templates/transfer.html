@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Tạo mã QR chuyển tiền</h2>
+<form method="post">
+    <select name="bank_bin" required>
+        <option value="970422" {% if request.form.bank_bin == "970422" %}selected{% endif %}>MB Bank - Ngân hàng Quân đội</option>
+        <option value="970436" {% if request.form.bank_bin == "970436" %}selected{% endif %}>Vietcombank</option>
+        <option value="970405" {% if request.form.bank_bin == "970405" %}selected{% endif %}>VietinBank</option>
+        <option value="970407" {% if request.form.bank_bin == "970407" %}selected{% endif %}>BIDV</option>
+        <!-- Thêm ngân hàng khác nếu muốn -->
+    </select>
+    <input type="text" name="account_number" placeholder="Số tài khoản *" required value="{{ request.form.account_number or '' }}">
+    <input type="number" name="amount" placeholder="Số tiền (VNĐ)" value="{{ request.form.amount or '' }}">
+    <input type="text" name="message" placeholder="Nội dung chuyển khoản" value="{{ request.form.message or '' }}">
+    <button type="submit">Tạo QR Code</button>
+</form>
+
+{% if qr_base64 %}
+<div class="qr">
+    <h3>Mã QR:</h3>
+    <img id="qrImage" src="data:image/png;base64,{{ qr_base64 }}" alt="QR Code">
+    <br><br>
+    <a id="downloadBtn" download="qr_code.png" href="data:image/png;base64,{{ qr_base64 }}">
+        <button>Tải mã QR</button>
+    </a>
+</div>
+{% endif %}
+{% endblock %}

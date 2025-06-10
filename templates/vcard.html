@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Tạo mã QR Thông tin cá nhân</h2>
+<form method="post">
+    <input type="text" name="name" placeholder="Họ và tên" required value="{{ request.form.name or '' }}">
+    <input type="text" name="phone" placeholder="Số điện thoại" required value="{{ request.form.phone or '' }}">
+    <input type="email" name="email" placeholder="Email" value="{{ request.form.email or '' }}">
+    <input type="text" name="address" placeholder="Địa chỉ" value="{{ request.form.address or '' }}">
+    <button type="submit">Tạo QR Code</button>
+</form>
+
+{% if qr_base64 %}
+<div class="qr">
+    <h3>Mã QR:</h3>
+    <img id="qrImage" src="data:image/png;base64,{{ qr_base64 }}" alt="QR Code">
+    <br><br>
+    <a id="downloadBtn" download="qr_code.png" href="data:image/png;base64,{{ qr_base64 }}">
+        <button>Tải mã QR</button>
+    </a>
+</div>
+{% endif %}
+{% endblock %}

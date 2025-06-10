@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Ứng dụng QR Code</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Tìm Hiểu Về QR Code</h1>
+        <h2>Báo cáo Thực nghiệm - Chương 3: Thiết kế và Triển khai web tạo QR</h2>
+    </header>
+    <nav>
+        <a href="/text" class="{{ 'active' if request.path == '/text' else '' }}">Tạo QR Văn Bản</a>
+        <a href="/vcard" class="{{ 'active' if request.path == '/vcard' else '' }}">Tạo QR Thông Tin Cá Nhân</a>
+        <a href="/transfer" class="{{ 'active' if request.path == '/transfer' else '' }}">Tạo QR Chuyển Tiền</a>
+    </nav>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

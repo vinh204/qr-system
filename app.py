@@ -3,18 +3,43 @@ import qrcode
 import io
 import base64
 from vietqr import VietQR
+from PIL import Image
 
 app = Flask(__name__)
 
-def generate_qr_base64(data):
-    img = qrcode.make(data)
+from PIL import Image  # Thêm nếu chưa import
+
+def generate_qr_base64(data, logo_path="./static/logo.png"):
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_H,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(data)
+    qr.make(fit=True)
+
+    img = qr.make_image(fill_color="black", back_color="white").convert("RGB")
+
+    try:
+        logo = Image.open(logo_path)
+        qr_width, qr_height = img.size
+        logo_size = int(qr_width * 0.15)
+        logo = logo.resize((logo_size, logo_size), Image.LANCZOS)
+
+        pos = ((qr_width - logo_size) // 2, (qr_height - logo_size) // 2)
+        img.paste(logo, pos, mask=logo if logo.mode == 'RGBA' else None)
+    except Exception as e:
+        print("Không thể thêm logo:", e)
+
     buf = io.BytesIO()
     img.save(buf, format="PNG")
     return base64.b64encode(buf.getvalue()).decode("utf-8")
 
+
 @app.route("/")
 def home():
-    return render_template("text.html")
+    return render_template("intro.html")
 
 @app.route("/text", methods=["GET", "POST"])
 def text_qr():

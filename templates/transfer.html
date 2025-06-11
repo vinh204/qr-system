@@ -7,7 +7,6 @@
         <option value="970436" {% if request.form.bank_bin == "970436" %}selected{% endif %}>Vietcombank</option>
         <option value="970405" {% if request.form.bank_bin == "970405" %}selected{% endif %}>VietinBank</option>
         <option value="970407" {% if request.form.bank_bin == "970407" %}selected{% endif %}>BIDV</option>
-        <!-- Thêm ngân hàng khác nếu muốn -->
     </select>
     <input type="text" name="account_number" placeholder="Số tài khoản *" required value="{{ request.form.account_number or '' }}">
     <input type="number" name="amount" placeholder="Số tiền (VNĐ)" value="{{ request.form.amount or '' }}">

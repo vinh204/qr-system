@@ -72,4 +72,4 @@ def transfer_qr():
     return render_template("transfer.html", qr_base64=qr_base64)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
